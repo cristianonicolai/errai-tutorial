@@ -28,6 +28,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
+import com.google.gwt.user.client.Window;
 import org.jboss.errai.bus.client.api.ClientMessageBus;
 import org.jboss.errai.common.client.api.Caller;
 import org.jboss.errai.common.client.dom.Anchor;
@@ -42,6 +43,7 @@ import org.jboss.errai.demo.client.shared.ContactOperation;
 import org.jboss.errai.demo.client.shared.ContactStorageService;
 import org.jboss.errai.demo.client.shared.Operation;
 import org.jboss.errai.enterprise.client.jaxrs.api.ResponseCallback;
+import org.jboss.errai.ui.client.local.spi.TranslationService;
 import org.jboss.errai.ui.nav.client.local.DefaultPage;
 import org.jboss.errai.ui.nav.client.local.NavigationPanel;
 import org.jboss.errai.ui.nav.client.local.Page;
@@ -49,6 +51,7 @@ import org.jboss.errai.ui.nav.client.local.PageHiding;
 import org.jboss.errai.ui.nav.client.local.PageShown;
 import org.jboss.errai.ui.shared.api.annotations.AutoBound;
 import org.jboss.errai.ui.shared.api.annotations.Bound;
+import org.jboss.errai.ui.shared.api.annotations.Bundle;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.SinkNative;
@@ -88,6 +91,7 @@ import com.google.gwt.user.client.Event;
  */
 @Page(role = DefaultPage.class, path = "/contacts")
 @Templated(value = "contact-page.html#contact-list", stylesheet = "contact-page.css")
+@Bundle( "/messages.properties" )
 public class ContactListPage {
 
   @Inject
@@ -133,6 +137,10 @@ public class ContactListPage {
   @Inject
   private Logger logger;
 
+  @Inject
+  private TranslationService translationService;
+
+
   /**
    * Register handlers and populate the list of {@link Contact Contacts}.
    */
@@ -172,6 +180,9 @@ public class ContactListPage {
   public void addNavBarButtons() {
     navbar.add(newContactAnchor);
     navbar.add(sortContactsAnchor);
+
+    String message = translationService.getTranslation(Messages.CUSTOM_MESSAGE);
+    Window.alert(message);
   }
 
   /**
